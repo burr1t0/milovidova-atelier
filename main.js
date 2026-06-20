@@ -39,10 +39,66 @@ const PLACEHOLDER_SVG = `
     <polyline points="21,15 16,10 5,21"/>
   </svg>`;
 
+// Lightbox
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lb-img');
+const lbDots   = document.getElementById('lb-dots');
+const lbPrev   = document.getElementById('lb-prev');
+const lbNext   = document.getElementById('lb-next');
+
+let lbPhotos = [], lbIndex = 0;
+
+function lbShow(photos, index) {
+  lbPhotos = photos;
+  lbIndex  = index;
+  lbImg.src = photos[index];
+  lbPrev.hidden = photos.length < 2;
+  lbNext.hidden = photos.length < 2;
+  lbDots.innerHTML = photos.length > 1
+    ? photos.map((_, i) => `<div class="lb-dot${i === index ? ' active' : ''}"></div>`).join('')
+    : '';
+  lbDots.querySelectorAll('.lb-dot').forEach((d, i) => d.addEventListener('click', () => lbGo(i)));
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function lbGo(index) {
+  lbIndex = (index + lbPhotos.length) % lbPhotos.length;
+  lbImg.src = lbPhotos[lbIndex];
+  lbDots.querySelectorAll('.lb-dot').forEach((d, i) => d.classList.toggle('active', i === lbIndex));
+}
+
+function lbClose() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+  lbImg.src = '';
+}
+
+document.getElementById('lb-close').addEventListener('click', lbClose);
+lbPrev.addEventListener('click', () => lbGo(lbIndex - 1));
+lbNext.addEventListener('click', () => lbGo(lbIndex + 1));
+lightbox.addEventListener('click', e => { if (e.target === lightbox) lbClose(); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') lbClose();
+  if (e.key === 'ArrowLeft')  lbGo(lbIndex - 1);
+  if (e.key === 'ArrowRight') lbGo(lbIndex + 1);
+});
+
+// Swipe support
+let touchX = null;
+lightbox.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchend', e => {
+  if (touchX === null) return;
+  const dx = e.changedTouches[0].clientX - touchX;
+  if (Math.abs(dx) > 40) lbGo(lbIndex + (dx < 0 ? 1 : -1));
+  touchX = null;
+}, { passive: true });
+
 function renderGallery(works) {
   const gallery = document.getElementById('gallery');
-  gallery.innerHTML = works.map(work => `
-    <div class="gallery-item" data-cat="${work.category}">
+  gallery.innerHTML = works.map((work, wi) => `
+    <div class="gallery-item" data-cat="${work.category}" data-wi="${wi}">
       ${work.url
         ? `<img src="${work.url}" alt="${work.caption}" loading="lazy" />`
         : `<div class="gallery-placeholder">${PLACEHOLDER_SVG}<span>${work.caption}</span></div>`
@@ -52,6 +108,14 @@ function renderGallery(works) {
       </div>
     </div>
   `).join('');
+
+  gallery.querySelectorAll('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const work = works[+item.dataset.wi];
+      const photos = work.photos && work.photos.length ? work.photos : (work.url ? [work.url] : []);
+      if (photos.length) lbShow(photos, 0);
+    });
+  });
 }
 
 fetch('works.json')
