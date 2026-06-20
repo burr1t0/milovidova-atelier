@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ателье Milovidova — авторская одежда</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">Milovidova</a>
+    <ul class="nav-links">
+      <li><a href="#works">Работы</a></li>
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#contact">Контакт</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-img">
+      <img src="photo-hero.jpg" alt="Виктория Милoвидова" />
+    </div>
+    <div class="hero-left">
+      <p class="hero-tag">Авторская одежда · Ручная работа</p>
+      <h1 class="hero-title">
+        Одежда,<br>
+        созданная<br>
+        <em>для вас</em>
+      </h1>
+      <p class="hero-desc">
+        Корсеты, платья и юбки — от романтичного до уличного. Каждое изделие создаётся вручную, с вниманием к каждой детали.
+      </p>
+      <a href="#contact" class="btn btn-filled">Обсудить заказ</a>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section class="works" id="works">
+    <div class="section-header fade-up">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Работы</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="filter-tabs fade-up">
+      <button class="tab active" data-filter="all">Все</button>
+      <button class="tab" data-filter="corset">Корсеты</button>
+      <button class="tab" data-filter="dress">Платья</button>
+      <button class="tab" data-filter="skirt">Юбки</button>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-top fade-up">
+      <div class="about-intro">
+        <div class="section-header">
+          <span class="section-num">02</span>
+          <h2 class="section-title">Обо мне</h2>
+          <div class="section-line"></div>
+        </div>
+      </div>
+      <div class="about-img">
+        <img src="photo-about.jpg" alt="Виктория Миловидова" />
+      </div>
+    </div>
+    <div class="about-body fade-up">
+      <p>Меня зовут Виктория. Я окончила колледж Петербургской моды, прошла 4 курса по корсету в корсетной школе №1 имени Ирины Павшиной, работала в театральном и цирковом ателье, ателье при бутике и в LAZER B.</p>
+      <p>Выполняю заказы высокого уровня сложности — от лёгкой одежды до верхней, для женщин и мужчин. Люблю сложные проекты и нестандартные решения. Каждая вещь создаётся индивидуально, с учётом ваших пожеланий и фишек фигуры.</p>
+      <p>Качественно подготовлю изделие к любому мероприятию: фестиваль, концерт, выпускной, свадьба, ковровая дорожка.</p>
+    </div>
+    <div class="about-stats fade-up">
+      <div class="stat">
+        <div class="stat-num">более 50</div>
+        <div class="stat-label">Изделий</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Года опыта</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Ручная работа</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="section-header fade-up">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Как это работает</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="process-steps">
+      <div class="step fade-up">
+        <div class="step-num">01</div>
+        <div class="step-title">Обсуждение</div>
+        <p class="step-desc">О своих ожиданиях — как по экстерьеру вещи, так и по сроку изготовления. Обсуждаем, приходим к консенсусу.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">02</div>
+        <div class="step-title">Замеры</div>
+        <p class="step-desc">Так как каждая вещь — ручная работа, всё делается с математической точностью по вашим меркам.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">03</div>
+        <div class="step-title">Создание</div>
+        <p class="step-desc">Шью изделие, отвечая на любые ваши вопросы в ходе работы. На этом этапе возможна дополнительная примерка.</p>
+      </div>
+      <div class="step fade-up">
+        <div class="step-num">04</div>
+        <div class="step-title">Готово</div>
+        <p class="step-desc">Вы обладатель единственной такой вещи в мире — это индивидуальный пошив.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div>
+      <div class="section-header fade-up">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Связаться</h2>
+        <div class="section-line"></div>
+      </div>
+      <p class="contact-desc fade-up">
+        Готовы обсудить ваш заказ? Напишите мне — отвечаю быстро и с удовольствием.
+      </p>
+      <div class="contact-links fade-up">
+        <a href="https://instagram.com/victoriamilovidovadesigner" class="contact-link" target="_blank">
+          <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
+          </svg>
+          <div>
+            <div class="contact-link-label">Instagram</div>
+            <div>@victoriamilovidovadesigner</div>
+          </div>
+        </a>
+        <a href="https://t.me/victoriamilovidovadesigner" class="contact-link" target="_blank">
+          <svg class="contact-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 5L2 12.5l7 1M21 5l-5 14-4.5-5.5M21 5L9 13.5m0 0V19l3-2.5"/>
+          </svg>
+          <div>
+            <div class="contact-link-label">Telegram</div>
+            <div>@victoriamilovidovadesigner</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <p class="contact-quote fade-up">
+        «Каждый стежок — это <em>забота</em> о том, кто будет это носить»
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Ателье Milovidova — авторская одежда</span>
+    <span>2026</span>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
