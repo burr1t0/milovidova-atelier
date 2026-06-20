@@ -1,0 +1,87 @@
+name: Update portfolio from Instagram
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # каждый день в 6:00 UTC
+  workflow_dispatch:      # ручной запуск
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Instagram posts
+        env:
+          INSTAGRAM_TOKEN: ${{ secrets.INSTAGRAM_TOKEN }}
+          INSTAGRAM_USER_ID: '17841423599493453'
+        run: |
+          python3 << 'EOF'
+          import urllib.request, json, os, re
+
+          token = os.environ['INSTAGRAM_TOKEN']
+          user_id = os.environ['INSTAGRAM_USER_ID']
+
+          # Обновляем токен (сбрасывает таймер 60 дней)
+          refresh_url = f'https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token={token}'
+          try:
+              with urllib.request.urlopen(refresh_url) as r:
+                  print("Token refreshed:", json.loads(r.read()).get('expires_in'), "sec")
+          except Exception as e:
+              print(f"Token refresh skipped: {e}")
+
+          # Получаем медиа
+          fields = 'id,media_type,media_url,thumbnail_url,caption,timestamp'
+          url = f'https://graph.instagram.com/v21.0/{user_id}/media?fields={fields}&access_token={token}'
+          with urllib.request.urlopen(url) as r:
+              data = json.loads(r.read())
+
+          TAGS = {'#корсет': 'corset', '#платье': 'dress', '#юбка': 'skirt'}
+
+          def category(caption):
+              if not caption:
+                  return None
+              for tag, cat in TAGS.items():
+                  if tag in caption.lower():
+                      return cat
+              return None
+
+          def children(media_id):
+              url = f'https://graph.instagram.com/v21.0/{media_id}/children?fields=id,media_url&access_token={token}'
+              with urllib.request.urlopen(url) as r:
+                  return [c['media_url'] for c in json.loads(r.read()).get('data', []) if 'media_url' in c]
+
+          works = []
+          for item in data.get('data', []):
+              cat = category(item.get('caption', ''))
+              if not cat:
+                  continue
+              mtype = item.get('media_type', '')
+              if mtype == 'VIDEO':
+                  continue
+              photos = children(item['id']) if mtype == 'CAROUSEL_ALBUM' else [item['media_url']]
+              caption_clean = re.sub(r'#\S+', '', item.get('caption', '')).strip().split('\n')[0][:60]
+              works.append({
+                  'id': item['id'],
+                  'category': cat,
+                  'caption': caption_clean,
+                  'url': photos[0] if photos else '',
+                  'photos': photos,
+                  'timestamp': item.get('timestamp', ''),
+              })
+
+          with open('works.json', 'w', encoding='utf-8') as f:
+              json.dump(works, f, ensure_ascii=False, indent=2)
+          print(f"Done: {len(works)} works saved")
+          EOF
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add works.json
+          git diff --cached --quiet || git commit -m "chore: update portfolio [skip ci]"
+          git push
