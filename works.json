@@ -1,8 +1,1 @@
-[
-  { "id": 1, "category": "corset", "caption": "Шёлковый корсет",     "url": "" },
-  { "id": 2, "category": "dress",  "caption": "Вечернее платье",     "url": "" },
-  { "id": 3, "category": "skirt",  "caption": "Многоярусная юбка",   "url": "" },
-  { "id": 4, "category": "corset", "caption": "Корсет с вышивкой",   "url": "" },
-  { "id": 5, "category": "dress",  "caption": "Летнее платье",       "url": "" },
-  { "id": 6, "category": "skirt",  "caption": "Юбка-солнце",         "url": "" }
-]
+[]
