@@ -73,9 +73,12 @@ jobs:
                   'timestamp': item.get('timestamp', ''),
               })
 
-          with open('works.json', 'w', encoding='utf-8') as f:
-              json.dump(works, f, ensure_ascii=False, indent=2)
-          print(f"Done: {len(works)} works saved")
+          if works:
+              with open('works.json', 'w', encoding='utf-8') as f:
+                  json.dump(works, f, ensure_ascii=False, indent=2)
+              print(f"Done: {len(works)} works saved")
+          else:
+              print("No tagged posts found, keeping existing works.json")
           EOF
 
       - name: Commit if changed
